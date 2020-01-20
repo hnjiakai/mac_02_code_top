@@ -7,12 +7,16 @@
 //
 
 #import "ViewController.h"
+#import "WebKit/WebKit.h"
 #import <Quartz/Quartz.h>
 @interface ViewController()<NSWindowDelegate>
 {
     NSWindow *_win;
+    
     NSTextView *_textView;
     NSScrollView *_scrollView;
+    
+    WebView *_webView;
     
     NSButton *_switchBtn;
     NSButton *_chooseImgBtn;
@@ -38,6 +42,9 @@
     
     //    给window添加一个NSTextField
     NSTextView *textField = [[NSTextView alloc]initWithFrame:win.contentView.frame];
+    
+    //WebView *webView= [[WebView alloc]initWithFrame:CGRectMake (0, 0, 800, 500)];
+    WebView *webView = [[WebView alloc]initWithFrame:win.contentView.frame];
     
 //    textField.backgroundColor = [NSColor colorWithRed:29/255.0 green:30/255.0 blue:25/255.0 alpha:1];
 
@@ -90,10 +97,16 @@
     //    创建scrollView
     NSScrollView *scrollView = [[NSScrollView alloc]initWithFrame:CGRectMake(0, 0, 600, 350)];
 
-    [scrollView setDocumentView:textField];
+    //用webview替换了
+    //[scrollView setDocumentView:textField];
+    [scrollView setDocumentView:webView];
+    //webView.mainFrameURL=@"/Users/jiakai/Downloads/mac_02_code_top-master/a.html";
+    
+    webView.mainFrameURL=@"https://www.baidu.com";
     
     
     [scrollView setHasVerticalScroller:YES];
+    [scrollView setHasVerticalScroller:NO];
     scrollView.backgroundColor = [NSColor clearColor];
     _scrollView = scrollView;
     
@@ -109,6 +122,7 @@
     
     
     [win makeMainWindow];
+    //始终置顶
     [win setLevel:NSStatusWindowLevel];
     win.delegate = self;
     _win = win;
